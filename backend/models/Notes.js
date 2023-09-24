@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const NotesSchema = new Schema({
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'user',
+        
+    },
+
     title: {
         type: String,
         required: true
@@ -11,7 +18,7 @@ const NotesSchema = new Schema({
         required: true,
     },
 
-    tag: {
+    category: {
         type: String,
         default: "General",
     },
