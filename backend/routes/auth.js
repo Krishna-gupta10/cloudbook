@@ -10,7 +10,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 JWT_SECRET = 'thisisasecretmessage';
 
-// Validating and Saving User Credentials
+const fetchuser = require('../middleware/fetchuser');
+
+// Route 1: Validating and Saving User Credentials
 router.post('/createuser', [
     body('username').isLength({ min: 5 }),
     body('name').isLength({ min: 3 }),
@@ -62,7 +64,7 @@ router.post('/createuser', [
 }
 );
 
-// Login END point using username and password
+// Route 2: Login END point using username and password
 router.post('/login', [
     body('username', "Please Enter a Valid Username!").isLength({ min: 5 }),
     body('password', "Password Can not be blank!").exists(),
@@ -106,4 +108,19 @@ router.post('/login', [
 
 }
 );
+
+// Route 3: Get Loggedin User details : api/auth/getuser (Login Required)
+router.post('/getuser', fetchuser, async (req, res) => {
+    try {
+        let userId = req.user.id;
+        const user = await User.findById({ _id: userId }).select("-password");
+        res.send(user);
+    }
+    catch (error) {
+        res.status(500).send("Internal Server Error!");
+        console.error(error.message);
+    }
+});
+
+
 module.exports = router;
