@@ -3,6 +3,7 @@ const router = express.Router();
 const fetchuser = require('../middleware/fetchuser');
 const Notes = require('../models/Notes');
 const { body, validationResult } = require('express-validator');
+const { NotBeforeError } = require('jsonwebtoken');
 
 // ROUTE 1: Fetch All Notes from the user by GET: localhost:5000/api/notes/fetchnotes
 router.get('/fetchnotes', fetchuser, async (req, res) => {
@@ -25,7 +26,6 @@ router.get('/fetchnotes', fetchuser, async (req, res) => {
 });
 
 // ROUTE 2: Add note by POST: localhost:5000/api/notes/addnote
-
 router.post('/addnote', fetchuser, [
     body('title', 'Enter a Valid Title').isLength({ min: 3 }),
     body('description', 'Note Description must be atleast 8 characters').isLength({ min: 8 }),
@@ -51,6 +51,33 @@ router.post('/addnote', fetchuser, [
         console.error(error.message);
         res.status(500).send("Internal Server Error!");
     }
-})
+});
+
+// ROUTE 3: Update an existing note by POST : localhost:5000/api/notes/updatenote
+
+router.put('/updatenote/:id', fetchuser, async (req, res) => {
+    // Get new title description from body
+    const { title, description, category } = req.body;
+
+    // Create new note 
+    const newNote = {};
+
+    // Add New Title, Description and Category to new Note
+    if (title) { newNote.title = title };
+    if (description) { newNote.description = description };
+    if (category) { newNote.category = category };
+
+    // Find Note with the same ID in the request
+    let note = await Notes.findById(req.params.id);
+    if (!note) { res.status(404).send("Not Found!") };
+
+    if (note.user.toString() !== req.user.id) {
+        return res.status(401).send("Not Allowed!");
+    }
+
+    // Update the note and Send response
+    note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true });
+    res.json({ note });
+});
 
 module.exports = router;
