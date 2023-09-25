@@ -1,0 +1,44 @@
+.sidebar {
+    height: 100%;
+    width: 350px;
+    position: fixed;
+    top: 55px;
+    left: 0;
+    padding-top: 20px;
+    border-right: 1px solid #555;
+    text-align: center;
+}
+
+.sidebar a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    display: block;
+    border-bottom: 1px solid #555;
+}
+
+
+.sidebar a:hover {
+    background-color: #555;
+    color: white;
+    ;
+}
+
+.notes {
+    margin-left: 40px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-control {
+    width: 50%;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.custom-textarea {
+    width: 155vh;
+}

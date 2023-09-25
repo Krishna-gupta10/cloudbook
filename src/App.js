@@ -2,28 +2,36 @@ import './App.css';
 import Navbar from './components/Navbar';
 import About from './components/About';
 import Home from './components/Home';
+import Notes from './components/Notes';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NoteState from './context/notes/NoteState';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Navbar title="Cloudbook" link1="About" />
-        <h1 className="my-3">Welcome To Cloudbook - Notes On the Go!</h1>
-      </div>
-      <div>
-        <Routes>
-          <Route
-            path="/"
-            element={<Home />}
-          />
-          <Route
-            path="/about"
-            element={<About />}
-          />
-        </Routes>
-      </div>
-    </Router>
+    <NoteState>
+      <Router>
+        <div className="App">
+          <Navbar title="Cloudbook - Notes on the GO!" link1="About" />
+        </div>
+        <div>
+          <Routes>
+            <Route
+              path="/"
+              element={<Home />}
+            />
+            <Route
+              path="/notes"
+              element={<Notes />}
+            />
+            <Route
+              path="/about"
+              element={<About />}
+            />
+          </Routes>
+        </div>
+      </Router>
+    </NoteState>
+
   );
 }
 
