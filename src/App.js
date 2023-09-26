@@ -8,11 +8,11 @@ import NoteState from './context/notes/NoteState';
 import CreateNote from './components/CreateNote';
 
 function App() {
-  return (
+  return (  
     <NoteState>
       <Router>
         <div className="App">
-          <Navbar title="Cloudbook - Notes on the GO!" link1="About" />
+          <Navbar title="Cloudbook" link1="About" />
         </div>
         <div>
           <Routes>
