@@ -11,7 +11,7 @@ export default function Notes() {
         <>
             <Sidebar />
             <div className="container" style = {{marginLeft: '350px'}}>
-                <h1 className= "my-3">Your Notes</h1>
+                <h1 className= "my-3 mx-2">Your Notes</h1>
                 {notes.map((note) => {
                     return <Noteitem key = {note._id} note={note} />;
                 })
