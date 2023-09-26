@@ -6,9 +6,10 @@ import Notes from './components/Notes';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NoteState from './context/notes/NoteState';
 import CreateNote from './components/CreateNote';
+import Login from './components/Login';
 
 function App() {
-  return (  
+  return (
     <NoteState>
       <Router>
         <div className="App">
@@ -31,6 +32,10 @@ function App() {
             <Route
               path="/notes"
               element={<Notes />}
+            />
+            <Route
+              path="/login"
+              element={<Login />}
             />
           </Routes>
         </div>

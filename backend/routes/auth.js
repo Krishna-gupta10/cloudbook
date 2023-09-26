@@ -12,6 +12,8 @@ JWT_SECRET = 'thisisasecretmessage';
 
 const fetchuser = require('../middleware/fetchuser');
 
+let success = false;
+
 // Route 1: Validating and Saving User Credentials
 router.post('/createuser', [
     body('username').isLength({ min: 5 }),
@@ -53,7 +55,8 @@ router.post('/createuser', [
         }
 
         const authToken = jwt.sign(data, JWT_SECRET);
-        res.json({ authToken });
+        success = true;
+        res.json({ success, authToken });
     }
 
     catch (error) {
@@ -98,7 +101,8 @@ router.post('/login', [
         }
 
         const authToken = jwt.sign(data, JWT_SECRET);
-        res.json({ authToken });
+        success = true;
+        res.json({ success, authToken });
     }
 
     catch (error) {
