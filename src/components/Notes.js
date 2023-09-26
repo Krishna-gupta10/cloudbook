@@ -1,11 +1,12 @@
 import React from 'react';
 import './Notes.css';
+import {Link} from 'react-router-dom';
 
 export default function Home() {
     return (
         <div className="container">
             <div className="sidebar">
-                <a href="/">Create a New Note</a>
+                <Link to="/createnote">Create a New Note</Link>
                 <a href="/">Category 1</a>
                 <a href="/">Category 2</a>
                 <a href="/">Category 3</a>

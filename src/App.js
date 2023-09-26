@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Notes from './components/Notes';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NoteState from './context/notes/NoteState';
+import CreateNote from './components/CreateNote';
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
             <Route
               path="/about"
               element={<About />}
+            />
+            <Route
+              path="/createnote"
+              element={<CreateNote />}
             />
           </Routes>
         </div>
