@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidebar from './Sidebar'
+import './Notes.css'
 
 export default function CreateNote() {
     return (
@@ -11,10 +12,10 @@ export default function CreateNote() {
                     <input type="text" className="form-control" />
                 </div>
                 <div className="mb-3">
-                    <textarea className="form-control custom-textarea" rows="25"></textarea>
+                    <textarea className="form-control custom-textarea" rows="20"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary mb-3">Submit</button>
-            </div>4
+                <button type="submit" className="btn btn-primary mb-3">Submit</button>
+            </div>
         </>
     )
-}
+}   

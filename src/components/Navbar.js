@@ -1,7 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+
+
 
 export default function Navbar(props) {
+    let location = useLocation();
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
@@ -15,24 +19,8 @@ export default function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" to="/about">{props.link1}</Link>
+                                <Link className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} aria-current="page" to="/about">{props.link1}</Link>
                             </li>
-                            {/* <li className="nav-item">
-                                <a className="nav-link" href="/">Features</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/">Pricing</a>
-                            </li> */}
-                            {/* <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown link
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="/">Action</a></li>
-                                    <li><a className="dropdown-item" href="/">Another action</a></li>
-                                    <li><a className="dropdown-item" href="/">Something else here</a></li>
-                                </ul>
-                            </li> */}
                         </ul>
                     </div>
                 </div>

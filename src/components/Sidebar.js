@@ -9,7 +9,7 @@ export default function Sidebar() {
             <a href="/">Category 1</a>
             <a href="/">Category 2</a>
             <a href="/">Category 3</a>
-            <a href="/">View All</a>
+            <Link to="/notes">View All</Link>
         </div>
     )
 }

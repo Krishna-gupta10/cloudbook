@@ -21,16 +21,16 @@ function App() {
               element={<Home />}
             />
             <Route
-              path="/notes"
-              element={<Notes />}
-            />
-            <Route
               path="/about"
               element={<About />}
             />
             <Route
               path="/createnote"
               element={<CreateNote />}
+            />
+            <Route
+              path="/notes"
+              element={<Notes />}
             />
           </Routes>
         </div>
