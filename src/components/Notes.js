@@ -1,18 +1,19 @@
 import React, { useContext } from 'react'
 import noteContext from '../context/notes/noteContext'
 import Sidebar from './Sidebar';
+import Noteitem from './Noteitem';
 
 
 export default function Notes() {
     const context = useContext(noteContext);
-    const { notes, setNotes } = context;
+    const { notes } = context;
     return (
         <>
             <Sidebar />
-            <div className= "container text-center">
-                <h1>Your Notes</h1>
-                {notes.map((notes) => {
-                    return notes.title;
+            <div className="container" style = {{marginLeft: '350px'}}>
+                <h1 className= "my-3">Your Notes</h1>
+                {notes.map((note) => {
+                    return <Noteitem key = {note._id} note={note} />;
                 })
                 }
             </div>
