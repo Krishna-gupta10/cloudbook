@@ -39,7 +39,7 @@ export default function Login() {
 
         <div className="container my-4" style={{
             backgroundColor: 'white',
-            border: '2px solid #2b3035',
+            border: '4px solid #2b3035',
             borderRadius: '15px',
             width: '30%',
             height: '60vh',
