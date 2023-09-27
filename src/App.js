@@ -1,5 +1,4 @@
 import './App.css';
-import Navbar from './components/Navbar';
 import About from './components/About';
 import Home from './components/Home';
 import Notes from './components/Notes';
@@ -12,9 +11,6 @@ function App() {
   return (
     <NoteState>
       <Router>
-        <div className="App">
-          <Navbar title="Cloudbook" link1="About" />
-        </div>
         <div>
           <Routes>
             <Route

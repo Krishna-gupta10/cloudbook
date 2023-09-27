@@ -1,19 +1,28 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
-import noteContext from '../context/notes/noteContext'
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import noteContext from '../context/notes/noteContext';
 import Sidebar from './Sidebar';
+import Navbar from './Navbar';
 import Noteitem from './Noteitem';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-
-export default function Notes() {
-
+export default function Notes(props) {
     const context = useContext(noteContext);
-    const { notes, getNotes, editNote} = context;
-    const [note, setNote] = useState({ id: "", etitle: "", edescription: "", ecategory: "" })
+    const { notes, getNotes, editNote } = context;
+    const [note, setNote] = useState({ id: "", etitle: "", edescription: "", ecategory: "" });
+    let history = useNavigate();
+    const location = useLocation(); 
 
     useEffect(() => {
-        getNotes();
-        //eslint-disable-next-line
-    }, [])
+        if (localStorage.getItem('token')) {
+            const category = new URLSearchParams(location.search).get('category') || "";
+            getNotes(category);
+        } else {
+            history("/");
+        }
+        // eslint-disable-next-line
+    }, [location.search]);
+
+    
     const ref = useRef(null);
     const refClose = useRef(null);
 
@@ -35,6 +44,9 @@ export default function Notes() {
 
     return (
         <>
+            <div className="App">
+                <Navbar title="Cloudbook" link1="About" />
+            </div>
 
             <button type="button" className="btn btn-primary d-none" ref={ref} data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
@@ -50,11 +62,11 @@ export default function Notes() {
                         <div className="modal-body">
                             <div className="col-md-7 mb-3">
                                 <h6>Title</h6>
-                                <input type="text" id="etitle" name="etitle" className="form-control" value={note.etitle} onChange={onChange} style={{width: '100%'}}/>
+                                <input type="text" id="etitle" name="etitle" className="form-control" value={note.etitle} onChange={onChange} style={{ width: '100%' }} />
                             </div>
                             <div className="col-md-5 mb-3">
                                 <h6>Category</h6>
-                                <input type="text" id="ecategory" name="ecategory" className="form-control" value={note.ecategory} onChange={onChange} style={{width: '100%'}}/>
+                                <input type="text" id="ecategory" name="ecategory" className="form-control" value={note.ecategory} onChange={onChange} style={{ width: '100%' }} />
                             </div>
                             <div className="mb-3">
                                 <textarea className="form-control custom-textarea" id="edescription" name="edescription" rows="5" value={note.edescription} onChange={onChange}></textarea>
@@ -62,7 +74,7 @@ export default function Notes() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" ref={refClose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" disabled = {note.etitle.length < 5 || note.edescription.length < 8} className="btn btn-primary" onClick={handleClick}>Save changes</button>
+                            <button type="button" disabled={note.etitle.length < 5 || note.edescription.length < 8} className="btn btn-primary" onClick={handleClick}>Save changes</button>
                         </div>
                     </div>
                 </div>

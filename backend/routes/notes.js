@@ -5,25 +5,30 @@ const Notes = require('../models/Notes');
 const { body, validationResult } = require('express-validator');
 const { NotBeforeError } = require('jsonwebtoken');
 
-// ROUTE 1: Fetch All Notes from the user by GET: localhost:5000/api/notes/fetchnotes
+// ROUTE 1: Fetch Notes by Category from the user by GET: localhost:5000/api/notes/fetchnotes
 router.get('/fetchnotes', fetchuser, async (req, res) => {
+    const { category } = req.query; // Extract the category query parameter
 
     try {
-        const notes = await Notes.find({ user: req.user.id });
-        if (notes.length == 0) {
-            res.status(404).send("No Notes To display");
+        // Construct a query to filter notes by user and optionally by category
+        const query = { user: req.user.id };
+        if (category) {
+            query.category = category;
         }
 
-        else {
+        const notes = await Notes.find(query);
+
+        if (notes.length === 0) {
+            res.status(404).send("No Notes To Display");
+        } else {
             res.json(notes);
         }
-
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error!");
     }
-
 });
+
 
 // ROUTE 2: Add note by POST: localhost:5000/api/notes/addnote
 router.post('/addnote', fetchuser, [

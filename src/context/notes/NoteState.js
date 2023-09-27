@@ -12,18 +12,21 @@ const NoteState = (props) => {
     const [notes, setNotes] = useState(notesInitial);
 
     // Fetch all User notes
-    const getNotes = async () => {
-        const response = await fetch(`${host}/api/notes/fetchnotes`, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
+    const getNotes = async (category) => {
+        const url = `${host}/api/notes/fetchnotes?category=${encodeURIComponent(category)}`;
+
+        const response = await fetch(url, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmY2EwYWU2ZmM4MGM1ZWU0ODM3Mjg0In0sImlhdCI6MTY5NTY2MDIxM30.fCQigvLliSDJ-uX2VS8yHy0b0_C4svHtfygntBavH-g",
+                "auth-token": localStorage.getItem('token')
             },
         });
 
         const json = await response.json();
         setNotes(json);
     }
+
 
     // Add a new note
     const addNote = async (title, description, category) => {
@@ -32,7 +35,7 @@ const NoteState = (props) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmY2EwYWU2ZmM4MGM1ZWU0ODM3Mjg0In0sImlhdCI6MTY5NTY2MDIxM30.fCQigvLliSDJ-uX2VS8yHy0b0_C4svHtfygntBavH-g",
+                "auth-token": localStorage.getItem('token')
             },
             body: JSON.stringify({ title, description, category }),
         });
@@ -49,7 +52,7 @@ const NoteState = (props) => {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmY2EwYWU2ZmM4MGM1ZWU0ODM3Mjg0In0sImlhdCI6MTY5NTY2MDIxM30.fCQigvLliSDJ-uX2VS8yHy0b0_C4svHtfygntBavH-g",
+                "auth-token": localStorage.getItem('token')
             },
         });
 
@@ -64,7 +67,7 @@ const NoteState = (props) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmY2EwYWU2ZmM4MGM1ZWU0ODM3Mjg0In0sImlhdCI6MTY5NTY2MDIxM30.fCQigvLliSDJ-uX2VS8yHy0b0_C4svHtfygntBavH-g",
+                "auth-token": localStorage.getItem('token')
             },
             body: JSON.stringify({ title, description, category }),
         });

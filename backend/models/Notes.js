@@ -21,6 +21,7 @@ const NotesSchema = new Schema({
     category: {
         type: String,
         default: "General",
+        lowercase: true,
     },
 
     createdAt: {

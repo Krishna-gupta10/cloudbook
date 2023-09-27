@@ -13,7 +13,7 @@ export default function Home() {
 
         <div>
           <Link to="/login"><button className="loginbutton my-5 mx-5"><i className="fa-solid fa-right-to-bracket"></i><b> Login</b></button></Link>
-          <Link to="/createaccount"><button className="signupbutton mx-5"><i class="fa-solid fa-user-plus"></i><b> Create Account</b></button></Link>
+          <Link to="/createaccount"><button className="signupbutton mx-5"><i className="fa-solid fa-user-plus"></i><b> Create Account</b></button></Link>
 
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import './css/Login.css'
 
 export default function Login() {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
@@ -17,10 +16,10 @@ export default function Login() {
         });
 
         const json = await response.json();
-        console.log(json);
+        console.log(json)
 
         if (json.success) {
-            localStorage.setItem('token', json.authtoken);
+            localStorage.setItem('token', json.authToken);
             history("/createnote");
         }
 
@@ -37,7 +36,8 @@ export default function Login() {
 
     return (
 
-        <div className="container my-4" style={{
+        <div className="container" style={{
+            marginTop: '100px',
             backgroundColor: 'white',
             border: '4px solid #2b3035',
             borderRadius: '15px',
@@ -51,10 +51,10 @@ export default function Login() {
             <h2><b>Login</b></h2>
             <form onSubmit={handleLogin}>
                 <div className="mb-3 my-5">
-                    <input type="text" className="form-control" name="username" placeholder="Username" value={credentials.username} onChange={onChange} />
+                    <input type="text" className="form-control" name="username" placeholder="Username" autoComplete="username" value={credentials.username} onChange={onChange} style={{ width: '100%' }} />
                 </div>
                 <div className="mb-3 my-4">
-                    <input type="password" className="form-control" name="password" placeholder="Password" value={credentials.password} onChange={onChange} />
+                    <input type="password" className="form-control" name="password" placeholder="Password" autoComplete="current-password" value={credentials.password} onChange={onChange} style={{ width: '100%' }} />
                 </div>
 
                 <button className="btn btn-success my-4"><b> Login</b></button>
