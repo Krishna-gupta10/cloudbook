@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NoteState from './context/notes/NoteState';
 import CreateNote from './components/CreateNote';
 import Login from './components/Login';
+import NewUser from './components/NewUser';
 
 function App() {
   return (
@@ -32,6 +33,10 @@ function App() {
             <Route
               path="/login"
               element={<Login />}
+            />
+            <Route
+              path="/createaccount"
+              element={<NewUser />}
             />
           </Routes>
         </div>
