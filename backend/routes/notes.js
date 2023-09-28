@@ -18,11 +18,8 @@ router.get('/fetchnotes', fetchuser, async (req, res) => {
 
         const notes = await Notes.find(query);
 
-        if (notes.length === 0) {
-            res.status(404).send("No Notes To Display");
-        } else {
-            res.json(notes);
-        }
+        res.json(notes);
+        
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error!");

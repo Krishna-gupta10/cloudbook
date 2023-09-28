@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './Navbar'
+import { useNavigate } from 'react-router-dom';
 
 export default function About() {
+
+    let history = useNavigate();
+
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            history("/");
+        }
+
+        else {
+            console.log(localStorage.getItem('token'))
+        }
+
+        //eslint-disable-next-line
+    }, [])
+
+
     return (
         <>
             <div className="App">

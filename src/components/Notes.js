@@ -3,6 +3,7 @@ import noteContext from '../context/notes/noteContext';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Noteitem from './Noteitem';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Notes(props) {
@@ -22,7 +23,6 @@ export default function Notes(props) {
         // eslint-disable-next-line
     }, [location.search]);
 
-    
     const ref = useRef(null);
     const refClose = useRef(null);
 
@@ -35,8 +35,8 @@ export default function Notes(props) {
         e.preventDefault();
         editNote(note.id, note.etitle, note.edescription, note.ecategory);
         refClose.current.click();
+        props.showAlert("Note Edited Successfully!", "success");
     }
-
 
     const onChange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value })
@@ -80,16 +80,17 @@ export default function Notes(props) {
                 </div>
             </div>
 
-
             <Sidebar />
             <div className="container" style={{ marginLeft: '350px' }}>
                 <h1 className="my-3 mx-2">Your Notes</h1>
-                {notes.map((note) => {
-                    return <Noteitem key={note._id} note={note} updateNote={updateNote} />;
-                })
-                }
+                {notes.length === 0 ? (
+                    <div className="alert alert-warning">No notes to display</div>
+                ) : (
+                    notes.map((note) => (
+                        <Noteitem key={note._id} note={note} updateNote={updateNote} showAlert={props.showAlert} />
+                    ))
+                )}
             </div>
         </>
-
-    )
+    );
 }
