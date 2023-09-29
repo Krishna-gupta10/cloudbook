@@ -1,0 +1,13 @@
+.displaynotes {
+    margin-left: 360px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1000px) {
+    .displaynotes {
+        margin-left: 0;
+        position: fixed;
+        margin-top: 50px;
+    }
+}

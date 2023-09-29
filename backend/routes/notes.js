@@ -5,7 +5,7 @@ const Notes = require('../models/Notes');
 const { body, validationResult } = require('express-validator');
 const { NotBeforeError } = require('jsonwebtoken');
 
-// ROUTE 1: Fetch Notes by Category from the user by GET: localhost:5000/api/notes/fetchnotes
+// ROUTE 1: Fetch Notes by Category from the user 
 router.get('/fetchnotes', fetchuser, async (req, res) => {
     const { category } = req.query; // Extract the category query parameter
 
@@ -27,7 +27,7 @@ router.get('/fetchnotes', fetchuser, async (req, res) => {
 });
 
 
-// ROUTE 2: Add note by POST: localhost:5000/api/notes/addnote
+// ROUTE 2: Add note 
 router.post('/addnote', fetchuser, [
     body('title', 'Enter a Valid Title').isLength({ min: 3 }),
     body('description', 'Note Description must be atleast 8 characters').isLength({ min: 8 }),
@@ -55,7 +55,7 @@ router.post('/addnote', fetchuser, [
     }
 });
 
-// ROUTE 3: Update an existing note by POST : localhost:5000/api/notes/updatenote
+// ROUTE 3: Update an existing note 
 
 router.put('/updatenote/:id', fetchuser, async (req, res) => {
     // Get new title description from body
@@ -82,7 +82,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
     res.json({ note });
 });
 
-// ROUTE 4: Delete an existing note by DELETE : localhost:5000/api/notes/deletenote
+// ROUTE 4: Delete an existing note
 router.delete('/deletenote/:id', fetchuser, async (req, res) => {
 
     // Find Note with the same ID in the request

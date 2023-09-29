@@ -3,15 +3,15 @@ import noteContext from '../context/notes/noteContext';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Noteitem from './Noteitem';
-
 import { useNavigate, useLocation } from 'react-router-dom';
+import './css/ViewNotes.css'
 
 export default function Notes(props) {
     const context = useContext(noteContext);
     const { notes, getNotes, editNote } = context;
     const [note, setNote] = useState({ id: "", etitle: "", edescription: "", ecategory: "" });
     let history = useNavigate();
-    const location = useLocation(); 
+    const location = useLocation();
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -43,7 +43,7 @@ export default function Notes(props) {
     }
 
     return (
-        <>
+        <div className="flex-container">
             <div className="App">
                 <Navbar title="Cloudbook" link1="About" />
             </div>
@@ -81,16 +81,16 @@ export default function Notes(props) {
             </div>
 
             <Sidebar />
-            <div className="container" style={{ marginLeft: '350px' }}>
-                <h1 className="my-3 mx-2">Your Notes</h1>
-                {notes.length === 0 ? (
-                    <div className="alert alert-warning">No notes to display</div>
-                ) : (
-                    notes.map((note) => (
-                        <Noteitem key={note._id} note={note} updateNote={updateNote} showAlert={props.showAlert} />
-                    ))
-                )}
-            </div>
-        </>
+                <div className="displaynotes">
+                    <h1 className="my-3 mx-2">Your Notes</h1>
+                    {notes.length === 0 ? (
+                        <div className="alert alert-warning">No notes to display</div>
+                    ) : (
+                        notes.map((note) => (
+                            <Noteitem key={note._id} note={note} updateNote={updateNote} showAlert={props.showAlert} />
+                        ))
+                    )}
+                </div>
+        </div>
     );
 }

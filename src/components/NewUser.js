@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function NewUser() {
     const [credentials, setCredentials] = useState({ name: '', username: '', email: '', password: '', cpassword: '' });
     let history = useNavigate();
+    const host = process.env.REACT_APP_API_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -12,7 +13,7 @@ export default function NewUser() {
             return;
         }
 
-        const response = await fetch('http://localhost:5000/api/auth/createuser', {
+        const response = await fetch(`${host}/api/auth/createuser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,8 +42,7 @@ export default function NewUser() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                minHeight: '100vh',
-                backgroundColor: '#f0f0f0',
+                minHeight: '100vh'
             }}
         >
             <div
@@ -51,8 +51,8 @@ export default function NewUser() {
                     backgroundColor: 'white',
                     border: '4px solid #2b3035',
                     borderRadius: '15px',
-                    width: '90%', // Increase the width as desired
-                    maxWidth: '500px', // Increase the maxWidth as desired
+                    width: '90%',
+                    maxWidth: '500px',
                     padding: '40px 40px',
                     textAlign: 'center',
                 }}

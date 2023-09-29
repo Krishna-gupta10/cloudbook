@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'thisisasecretmessage';
 
 const fetchuser = (req, res, next) => {
     // Get id from JWT token and Add ID to request
@@ -8,7 +7,7 @@ const fetchuser = (req, res, next) => {
         res.status(401).send({ error: "Please authenticate using a valid token" })
     }
     try {
-        const data = jwt.verify(token, JWT_SECRET);
+        const data = jwt.verify(token, process.env.MONGO_URL);
         req.user = data.user;
         next();
 

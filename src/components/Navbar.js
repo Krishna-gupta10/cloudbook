@@ -3,12 +3,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 
 export default function Navbar(props) {
+    const host = process.env.REACT_APP_API_URL;
     let history = useNavigate();
     const location = useLocation();
     const [userData, setUserData] = useState({});
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/auth/getuser', {
+        fetch(`${host}/api/auth/getuser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,13 +23,12 @@ export default function Navbar(props) {
                 return response.json();
             })
             .then(data => {
-                // Update the userData state with the fetched user data
                 setUserData(data);
             })
             .catch(error => {
-                // Handle errors here
                 console.error('Error fetching user data:', error);
             });
+        //eslint-disable-next-line
     }, []);
 
     const handleLogout = () => {
@@ -40,8 +40,7 @@ export default function Navbar(props) {
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
                 <div className="container-fluid" >
-                    <a className="navbar-brand" href="/createnote">
-                        {/* *icon here* */}
+                    <a className="navbar-brand" href="/">
                         {props.title}</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -57,7 +56,6 @@ export default function Navbar(props) {
                             <a className="btn btn-dark dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">{userData.username}
                             </a>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="/">Account Settings</a></li>
                                 {/* eslint-disable-next-line */}
                                 <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>
                             </ul>

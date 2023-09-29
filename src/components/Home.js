@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <>
-      <Link to="/createnote"></Link>
+      <Link to="/"></Link>
       <div className="container-fluid text-center" style={{ marginTop: '120px', padding: 0 }}>
         <h1><b>Welcome to Cloudbook</b></h1>
         <h2><b>Create and Access your notes on the GO!</b></h2>

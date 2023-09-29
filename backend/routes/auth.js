@@ -1,18 +1,28 @@
 const express = require('express'); // Imported express and router
 const router = express.Router();
 const User = require('../models/User'); // Imported Schema to Create User
+const nodemailer = require('nodemailer'); // Imported NodeMailer to Send OTP via email
 const { body, validationResult } = require('express-validator'); // Express Validator
-
 // BCryptJs for Hashing Password
 const bcrypt = require('bcryptjs');
 
 // JSON WEB TOKEN to generate tokens for users
 const jwt = require('jsonwebtoken');
-JWT_SECRET = 'thisisasecretmessage';
 
+// Middleware to fetch user details for endpoints that require loggedin user
 const fetchuser = require('../middleware/fetchuser');
 
-let success = false;
+
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASS,
+    },
+});
+const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+};
 
 // Route 1: Validating and Saving User Credentials
 router.post('/createuser', [
@@ -47,6 +57,8 @@ router.post('/createuser', [
             email: req.body.email,
             password: hashedPassword,
         });
+
+
         // Generate token by sign function of JWT using ID and SECRET MESSAGE 
         const data = {
             user: {
@@ -54,13 +66,12 @@ router.post('/createuser', [
             }
         }
 
-        const authToken = jwt.sign(data, JWT_SECRET);
+        const authToken = jwt.sign(data, process.env.JWT_SECRET);
         success = true;
         res.json({ success, authToken });
     }
 
     catch (error) {
-        console.error(error.message);
         res.status(500).send("Some Error!");
     }
 
@@ -81,6 +92,7 @@ router.post('/login', [
     const { username, password } = req.body;
 
     try {
+        let success = false;
         // Check if user exists in database
         let user = await User.findOne({ username });
         if (!user) {
@@ -100,20 +112,19 @@ router.post('/login', [
             }
         }
 
-        const authToken = jwt.sign(data, JWT_SECRET);
+        const authToken = jwt.sign(data, process.env.JWT_SECRET);
         success = true;
         res.json({ success, authToken });
     }
 
     catch (error) {
-        console.error(error.message);
         res.status(500).send("Server Error! Please Try Again");
     }
 
 }
 );
 
-// Route 3: Get Loggedin User details : api/auth/getuser (Login Required)
+// Route 3: Get Loggedin User details
 router.post('/getuser', fetchuser, async (req, res) => {
     try {
         let userId = req.user.id;
@@ -122,9 +133,117 @@ router.post('/getuser', fetchuser, async (req, res) => {
     }
     catch (error) {
         res.status(500).send("Internal Server Error!");
-        console.error(error.message);
     }
 });
+
+// Route 4: Reset Password (Requires Authentication)
+router.post('/sendotp', [
+    body('email').isEmail(),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        let success = false;
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
+        }
+
+        const OTP = generateOTP();
+
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'Password Reset OTP',
+            text: `Your OTP for password reset is: ${OTP}`,
+        }
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return res.status(500).json({ success: false, error: 'Failed to send OTP' });
+            } else {
+                user.otp = OTP;
+                user.save();
+
+                res.status(200).json({ success: true, message: 'OTP sent to your email' });
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Server Error' });
+    }
+});
+
+
+// Route 5: Verify OTP
+router.post('/verifyotp', [
+    body('email').isEmail(),
+    body('otp').isNumeric().isLength({ min: 6, max: 6 }),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        let success = false;
+        const { email, otp } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
+        }
+
+        if (user.otp !== otp) {
+            return res.status(400).json({ error: 'Invalid OTP' });
+        }
+
+        res.status(200).json({ success: true, message: 'OTP verified successfully' });
+    } catch (error) {
+        res.status(500).send('Server Error');
+    }
+});
+
+// Route 6: Reset Password for OTP-verified users
+router.post('/resetpassword', [
+    body('otp').isNumeric().isLength({ min: 6, max: 6 }),
+    body('newPassword').isLength({ min: 8 }),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const { otp, newPassword } = req.body;
+        const user = await User.findOne({ otp });
+
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
+        }
+
+        user.otp = null;
+
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+
+        user.password = hashedPassword;
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Password reset successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Server Error' });
+    }
+});
+
+
+module.exports = router;
 
 
 module.exports = router;

@@ -9,6 +9,7 @@ import NoteState from './context/notes/NoteState';
 import CreateNote from './components/CreateNote';
 import Login from './components/Login';
 import NewUser from './components/NewUser';
+import ForgotPassword from './components/ForgotPassword';
 
 function App() {
 
@@ -31,16 +32,15 @@ function App() {
         <div>
           <Routes>
             <Route
-              path="/"
-              element={<Home />}
-            />
-            <Route
               path="/about"
               element={<About />}
             />
-
             <Route
-              path="/createnote"
+              path="/home"
+              element={<Home />}
+            />
+            <Route
+              path="/"
               element={<CreateNote showAlert={showAlert} />}
             />
             <Route
@@ -54,6 +54,10 @@ function App() {
             <Route
               path="/createaccount"
               element={<NewUser />}
+            />
+            <Route
+              path="/forgotpassword"
+              element={<ForgotPassword showAlert={showAlert} />}
             />
           </Routes>
         </div>

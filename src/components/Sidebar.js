@@ -7,8 +7,10 @@ export default function Sidebar() {
     const [notes, setNotes] = useState([]);
     const [categories, setCategories] = useState([]);
     const history = useNavigate();
+    const host = process.env.REACT_APP_API_URL;
+
     useEffect(() => {
-        fetch('http://localhost:5000/api/notes/fetchnotes', {
+        fetch(`${host}/api/notes/fetchnotes`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -30,6 +32,8 @@ export default function Sidebar() {
             .catch(error => {
                 console.error('Error fetching notes data:', error);
             });
+
+        //eslint-disable-next-line
     }, []);
 
     const handleCategoryClick = (category) => {
@@ -38,7 +42,7 @@ export default function Sidebar() {
 
     return (
         <div className="sidebar">
-            <Link to="/createnote">Create a New Note</Link>
+            <Link to="/">Create a New Note</Link>
 
             {
                 categories.map(category => (

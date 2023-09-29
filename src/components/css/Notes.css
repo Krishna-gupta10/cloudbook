@@ -1,17 +1,33 @@
 .notes {
-    margin-left: 350px;
-    padding: 20px;
-    box-sizing: border-box;
+  margin-left: 240px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .form-control {
-    width: 50%;
-}
-
-.form-control:focus {
-    box-shadow: none;
+  width: 70%;
 }
 
 .custom-textarea {
-    width: 100%;
+  width: 100%;
+}
+
+.menu-icon {
+  display: block;
+  cursor: pointer;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 3px 0;
+}
+
+@media (max-width: 1000px) {
+  .notes {
+    margin-left: 0;
+    position: relative;
+    margin-top: 50px;
+  }
 }
