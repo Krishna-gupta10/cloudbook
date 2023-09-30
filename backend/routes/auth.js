@@ -44,13 +44,13 @@ router.post('/createuser', [
         let user = await User.findOne({ username: req.body.username });
         if (user) {
             message: "A User with this username already exists!";
-            return res.json(message);
+            return res.json({message});
         }
 
         let user2 = await User.findOne({ email: req.body.email });
         if (user2) {
             message: "A User with this email already exists!";
-            return res.json(message);
+            return res.json({message});
         }
 
         // Adding Salt to password for high security
