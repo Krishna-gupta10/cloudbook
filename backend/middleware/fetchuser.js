@@ -7,7 +7,7 @@ const fetchuser = (req, res, next) => {
         res.status(401).send({ error: "Please authenticate using a valid token" })
     }
     try {
-        const data = jwt.verify(token, process.env.MONGO_URL);
+        const data = jwt.verify(token, process.env.JWT_SECRET);
         req.user = data.user;
         next();
 

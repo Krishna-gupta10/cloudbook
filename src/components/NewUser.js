@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function NewUser() {
     const [credentials, setCredentials] = useState({ name: '', username: '', email: '', password: '', cpassword: '' });
     let history = useNavigate();
-    const host = process.env.REACT_APP_API_URL;
-
+    const host = process.env.REACT_APP_API_URL
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (credentials.password !== credentials.cpassword) {
@@ -22,11 +21,10 @@ export default function NewUser() {
         });
 
         const json = await response.json();
-        console.log(json);
 
         if (json.success) {
             localStorage.setItem('token', json.authToken);
-            history('/createnote');
+            history('/');
         } else {
             alert('Invalid Credentials!');
         }
