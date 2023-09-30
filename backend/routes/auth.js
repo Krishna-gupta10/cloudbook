@@ -30,27 +30,23 @@ router.post('/createuser', [
     body('name').isLength({ min: 3 }),
     body('email').isEmail(),
     body('password').isLength({ min: 8 }),
-
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: result.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
 
-
     try {
-
+        let success = false;
         // Check if user with the entered username already exists
         let user = await User.findOne({ username: req.body.username });
         if (user) {
-            message: "A User with this username already exists!";
-            return res.json({message});
+            return res.status(400).json({ error: "A User with this username already exists!" });
         }
 
         let user2 = await User.findOne({ email: req.body.email });
         if (user2) {
-            message: "A User with this email already exists!";
-            return res.json({message});
+            return res.status(400).json({ error: "A User with this email already exists!" });
         }
 
         // Adding Salt to password for high security
@@ -65,7 +61,6 @@ router.post('/createuser', [
             password: hashedPassword,
         });
 
-
         // Generate token by sign function of JWT using ID and SECRET MESSAGE 
         const data = {
             user: {
@@ -76,14 +71,11 @@ router.post('/createuser', [
         const authToken = jwt.sign(data, process.env.JWT_SECRET);
         success = true;
         res.json({ success, authToken });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Server Error' });
     }
+});
 
-    catch (error) {
-        res.status(500).send("Some Error!");
-    }
-
-}
-);
 
 // Route 2: Login END point using username and password
 router.post('/login', [
