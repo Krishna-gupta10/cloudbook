@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function NewUser() {
     const [credentials, setCredentials] = useState({ name: '', username: '', email: '', password: '', cpassword: '' });
@@ -123,6 +123,7 @@ export default function NewUser() {
                             name="cpassword"
                             placeholder="Confirm Password"
                             autoComplete="current-password"
+                            minLength={8}
                             value={credentials.cpassword}
                             onChange={onChange}
                             style={{ width: '100%' }}
@@ -130,10 +131,16 @@ export default function NewUser() {
                         />
                     </div>
 
-                    <button className="btn btn-success my-4">
+                    <button className="btn btn-success mt-4">
                         <b>Create Account</b>
                     </button>
                 </form>
+
+                <Link to="/home">
+                    <button className="btn btn-sm btn-primary mt-3">
+                        <b>Back</b>
+                    </button>
+                </Link>
             </div>
         </div>
     );
