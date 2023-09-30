@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Noteitem from './Noteitem';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './css/ViewNotes.css'
+import './css/ViewNotes.css';
 
 export default function Notes(props) {
     const context = useContext(noteContext);
@@ -39,7 +39,7 @@ export default function Notes(props) {
     }
 
     const onChange = (e) => {
-        setNote({ ...note, [e.target.name]: e.target.value })
+        setNote({ ...note, [e.target.name]: e.target.value });
     }
 
     return (
@@ -81,16 +81,16 @@ export default function Notes(props) {
             </div>
 
             <Sidebar />
-                <div className="displaynotes">
-                    <h1 className="my-3 mx-2">Your Notes</h1>
-                    {notes.length === 0 ? (
-                        <div className="alert alert-warning">No notes to display</div>
-                    ) : (
-                        notes.map((note) => (
-                            <Noteitem key={note._id} note={note} updateNote={updateNote} showAlert={props.showAlert} />
-                        ))
-                    )}
-                </div>
+            <div className="displaynotes">
+                <h1 className="my-3 mx-2">Your Notes</h1>
+                {notes.length === 0 ? (
+                    <div className="alert alert-warning">No notes to display</div>
+                ) : (
+                    notes.map((note) => (
+                        <Noteitem key={note._id} note={note} updateNote={updateNote} showAlert={props.showAlert} />
+                    ))
+                )}
+            </div>
         </div>
     );
 }

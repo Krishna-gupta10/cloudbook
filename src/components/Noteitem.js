@@ -8,7 +8,7 @@ export default function Noteitem(props) {
 
     return (
         <div className="container">
-            <div className="card my-3" style={{ width: '70rem' }}>
+            <div className="card my-3" style={{ width: '70em' }}>
                 <div className="card-body">
                     <h5 className="card-title">{note.title}</h5>
                     <h6 className="card-title">{note.category}</h6>

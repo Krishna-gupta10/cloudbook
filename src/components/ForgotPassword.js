@@ -39,9 +39,17 @@ export default function ForgotPassword(props) {
                 type: 'success',
                 message: 'OTP has been sent to your email. Please check your inbox.',
             });
+        } else {
+            // Handle the case where the email is not linked to any account
+            setAlert({
+                type: 'danger',
+                message: 'Email address is not linked to any account. Please check your email or sign up for a new account.',
+            });
         }
+
         setIsGeneratingOTP(false);
     };
+
 
     const onChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
